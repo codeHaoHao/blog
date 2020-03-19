@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lijiahao.blog.dao.FrendLinkDao">
+	<sql id="table_name">
+		frend_link
+	</sql>
+	<sql id="attributes">
+	id, name, url, create_date
+	</sql>
+	<sql id="choose">
+		<choose>
+			<when test="id !=null and id !=''">
+				and id = #{id}
+			</when>
+			<when test="name !=null and name !=''">
+				and name = #{name}
+			</when>
+			<when test="url !=null and url !=''">
+				and url = #{url}
+			</when>
+			<when test="create_date !=null and create_date !=''">
+				and create_date = #{create_date}
+			</when>
+		</choose>
+	</sql>
+	
+	<select id="get" resultType="com.lijiahao.blog.model.FrendLink" parameterType="Integer">
+		select
+		<include refid="attributes"/>
+		from <include refid="table_name"/>
+		where 1=1
+		and id = #{id}
+	</select>
+	
+	<delete id="delete" parameterType="Integer">
+		delete 
+		from <include refid="table_name"/> 
+		where id = #{id}
+	</delete>
+	
+	<update id="update" keyProperty="id" useGeneratedKeys="true" parameterType="com.lijiahao.blog.model.FrendLink">
+		update <include refid="table_name"/>
+		<set>
+			<if test="name !=null and name !=''">name=#{name},</if>
+			<if test="url !=null and url !=''">url=#{url}</if>
+			<if test="create_date !=null and create_date !=''">create_date=#{create_date}</if>
+		</set>
+		where 1=1
+		and id=#{id}
+	</update>
+	
+	<insert id="add" keyProperty="id" useGeneratedKeys="true" parameterType="com.lijiahao.blog.model.FrendLink">
+		insert into <include refid="table_name"/>(<include refid="attributes"/>)
+		values(#{id},#{name},#{url},#{create_date})
+	</insert>
+	
+	<select id="selectByBean" resultType="com.lijiahao.blog.model.FrendLink" parameterType="com.lijiahao.blog.model.FrendLink">
+		select 
+		<include refid="attributes"/>
+		from <include refid="table_name"/>
+		where 1=1
+		<include refid="choose"/>
+	</select>
+	
+	<select id="getList" resultType="com.lijiahao.blog.model.FrendLink">
+		select
+		<include refid="attributes"/>
+		from <include refid="table_name"/>
+	</select>
+</mapper>

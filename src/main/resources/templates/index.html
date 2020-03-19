@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+<title>首页_李佳浩个人博客 - 一个站在java后端之路的技术员个人博客网站</title>
+<meta name="keywords" content="个人博客,李佳浩个人博客,个人博客模板,李佳浩" />
+<meta name="description" content="李佳浩个人博客，是一个站在java后端之路的程序员个人网站" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="css/base.css" rel="stylesheet">
+<link href="css/index.css" rel="stylesheet">
+<link href="css/m.css" rel="stylesheet">
+<!--[if lt IE 9]>
+<script src="js/modernizr.js"></script>
+<![endif]-->
+<script>
+window.onload = function ()
+{
+	var oH2 = document.getElementsByTagName("h2")[0];
+	var oUl = document.getElementsByTagName("ul")[0];
+	oH2.onclick = function ()
+	{
+		var style = oUl.style;
+		style.display = style.display == "block" ? "none" : "block";
+		oH2.className = style.display == "block" ? "open" : ""
+	}
+}
+</script>
+</head>
+<body>
+	<div id="index-nav-template">
+		<index-nav></index-nav>
+	</div>
+	<article>
+  <div class="blogs">
+  
+    <li th:each="article:${page.list}"> 
+	    <span class="blogpic" th:unless="${article.image_url==null}">
+		    <a th:href="${'/info.html?id=' + article.id}">
+		    	<img th:src="${article.image_url}">
+		    </a>
+	    </span>
+      <h3 class="blogtitle">
+      	<a th:href="${'/info.html?id=' + article.id}" th:text="${article.title}"></a>
+      </h3>
+      <div class="bloginfo">
+        <p th:utext="${#strings.abbreviate(article.summary,150)}"></p>
+      </div>
+      <div class="autor">
+	      <span class="lm">
+	      <a target="_blank" class="classname" th:each="tag:${article.tagsList}" th:text="${tag.name}"></a>
+	      </span>
+	      <span class="dtime" th:text="${#dates.format(article.create_date,'yyyy-MM-dd HH:mm:ss')}"></span>
+	      <span class="viewnum" th:text="${'浏览量（' + article.readings} + '）'"></span>
+	      <span class="readmore"><a th:href="${'/info.html?id=' + article.id}">阅读原文</a></span></div>
+    </li>
+	<div class="pagelist pagination">
+		<a th:if="${page.hasPreviousPage}" th:href="'/index.html?pageNum=' + ${page.prePage}">上一页</a>
+		<a th:each="num:${page.navigatepageNums}"  th:id="${page.pageNum==num}?'pageActice':''" th:href="'/index.html?pageNum=' + ${num}" th:text="${num}"></a>
+		<a th:if="${page.hasNextPage}" th:href="'/index.html?pageNum=' + ${page.nextPage}">下一页</a>
+	</div>
+  </div>
+  <div class="sidebar">
+    <div class="about">
+      <div class="avatar"> <img th:src="${user.avatar}" alt=""> </div>
+      <p class="abname" th:text="${user.name}"></p>
+      <p class="abposition" th:text="${user.profession}"></p>
+      <div class="abtext" th:text="${user.introduction}"> </div>
+    </div>
+    <div class="search">
+      <form action="/e/search/index.php" method="post" name="searchform" id="searchform">
+        <input name="keyboard" id="keyboard" class="input_text" value="请输入关键字" style="color: rgb(153, 153, 153);" onfocus="if(value=='请输入关键字'){this.style.color='#000';value=''}" onblur="if(value==''){this.style.color='#999';value='请输入关键字'}" type="text">
+        <input name="show" value="title" type="hidden">
+        <input name="tempid" value="1" type="hidden">
+        <input name="tbname" value="news" type="hidden">
+        <input name="Submit" class="input_submit" value="搜索" type="submit">
+      </form>
+    </div>
+    <div class="cloud">
+      <h2 class="hometitle">标签云</h2>
+      <ul>
+      	<a th:each="tag:${tags}" th:text="${tag.name}" ></a>
+      </ul>
+    </div>
+    <div class="paihang">
+      <h2 class="hometitle">点击排行</h2>
+      <ul>
+        <li th:each="article:${readingRank.list}">
+        	<b><a th:href="${'/info.html?id=' + article.id}" target="_blank" th:text="${#strings.abbreviate(article.title,18)}"></a></b>
+        	<i th:unless="${article.image_url==null}"><img th:src="${article.image_url}"></i>
+          	<p th:text="${#strings.abbreviate(article.summary,50)}"></p>
+        </li>
+      </ul>
+    </div>
+    <div class="links">
+      <h2 class="hometitle">友情链接</h2>
+      <ul>
+        <li><a href="http://www.yangqq.com" title="李佳浩个人博客">李佳浩个人博客</a></li>
+        <li><a href="http://www.yangqq.com" title="李佳浩个人博客">李佳浩个人博客</a></li>
+        <li><a href="http://www.yangqq.com" title="李佳浩个人博客">李佳浩个人博客</a></li>
+      </ul>
+    </div>
+
+  </div>
+</article>
+<div class="blank"></div>
+<footer>
+	<div id = "copyright-template">
+		<copyright></copyright>
+	</div>
+</footer>
+<script type="text/javascript" src="/js/vue/vue.min.js"></script>
+<script type="text/javascript" src="/js/vue/vue-templates.js"></script>
+<script src="/js/include.js"></script>
+<script src="/js/nav.js"></script>
+</body>
+</html>

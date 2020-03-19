@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lijiahao.blog.dao.ArticleDao">
+	<sql id="table_name">
+		article
+	</sql>
+	<sql id="attributes">
+	id, user_id, author, title, image_url, content,
+	create_date, update_date, likes, readings, sort, 
+	status, summary
+	</sql>
+	
+	<resultMap type="com.lijiahao.blog.model.Article" id="artilceType">
+		<id property="id" column="id" />
+		<result property="user_id" column="user_id" />
+		<result property="author" column="author" />
+		<result property="title" column="title" />
+		<result property="image_url" column="image_url" />
+		<result property="content" column="content" />
+		<result property="create_date" column="create_date" />
+		<result property="update_date" column="update_date" />
+		<result property="likes" column="likes" />
+		<result property="readings" column="readings"/>
+		<result property="sort" column="sort"/>
+		<result property="status" column="status"/>
+		<result property="summary" column="summary"/>
+		
+		<collection property="tagsList" column="id" ofType="com.lijiahao.blog.model.Tags"
+		select="com.lijiahao.blog.dao.TagsDao.getByArticleId"/>
+		
+	</resultMap>
+	
+	<sql id="choose">
+		<choose>
+			<when test="id !=null and id !=''">
+				and id = #{id}
+			</when>
+			<when test="user_id !=null and user_id !=''">
+				and user_id = #{user_id}
+			</when>
+			<when test="author !=null and author !=''">
+				and author = #{author}
+			</when>
+			<when test="title !=null and title''">
+				and title = #{title}
+			</when>
+			<when test="image_url !=null and image_url !=''">
+				and image_url = #{image_url}
+			</when>
+			<when test="content !=null and content !=''">
+				and content = #{content}
+			</when>
+			<when test="create_date !=null and create_date !=''">
+				and age = #{age}
+			</when>
+			<when test="update_date !=null and update_date !=''">
+				and update_date = #{update_date}
+			</when>
+			<when test="likes !=null and likes !=''">
+				and likes = #{likes}
+			</when>
+			<when test="readings !=null and readings !=''">
+				and readings = #{readings}
+			</when>
+			<when test="sort !=null and sort !=''">
+				and sort = #{sort}
+			</when>
+			<when test="status !=null and status !=''">
+				and status = #{status}
+			</when>
+			<when test="summary !=null and summary !=''">
+				and summary = #{summary}
+			</when>
+		</choose>
+	</sql>
+	
+	<select id="get" resultMap="artilceType" parameterType="Integer">
+		select
+		<include refid="attributes"/>
+		from <include refid="table_name"/>
+		where 1=1
+		and id = #{id}
+	</select>
+	
+	<delete id="delete" parameterType="Integer">
+		delete 
+		from <include refid="table_name"/> 
+		where id = #{id}
+	</delete>
+	
+	<update id="update" keyProperty="id" useGeneratedKeys="true" parameterType="com.lijiahao.blog.model.Article">
+		update <include refid="table_name"/>
+		<set>
+			<if test="user_id !=null and user_id !=''">user_id=#{user_id},</if>
+			<if test="author !=null and author !=''">author=#{author},</if>
+			<if test="title !=null and title !=''">title=#{title},</if>
+			<if test="image_url !=null and image_url !=''">image_url=#{image_url},</if>
+			<if test="content !=null and content !=''">content=#{content},</if>
+			<if test="create_date !=null and create_date !=''">create_date=#{create_date},</if>
+			<if test="update_date !=null and update_date !=''">update_date=#{update_date},</if>
+			<if test="likes !=null and likes !=''">likes=#{likes},</if>
+			<if test="readings !=null and readings !=''">readings=#{readings},</if>
+			<if test="sort !=null and sort !=''">sort=#{sort},</if>
+			<if test="status !=null and status !=''">status=#{status},</if>
+			<if test="summary !=null and summary !=''">summary=#{summary}</if>
+		</set>
+		where 1=1
+		and id=#{id}
+	</update>
+	
+	<insert id="add" useGeneratedKeys="true" keyProperty="id" parameterType="com.lijiahao.blog.model.Article">
+		insert into <include refid="table_name"/>(<include refid="attributes"/>)
+		values(#{id},#{user_id},#{author},#{title},#{image_url},#{content},#{create_date},#{update_date},#{likes},#{readings},#{sort},#{status},#{summary})
+	</insert>
+	
+	<select id="selectByBean" resultMap="artilceType" parameterType="com.lijiahao.blog.model.Article">
+		select 
+		<include refid="attributes"/>
+		from <include refid="table_name"/>
+		where 1=1
+		<include refid="choose"/>
+	</select>
+	
+	<select id="getList" resultMap="artilceType">
+		select
+		<include refid="attributes"/>
+		from <include refid="table_name"/>
+	</select>
+
+	<select id="getPrevious" resultType="Integer"
+		parameterType="Integer">
+		SELECT id
+		FROM <include refid="table_name"/>
+		where id <![CDATA[ < ]]> #{id}
+		ORDER BY id DESC
+		LIMIT 1
+	</select>
+
+	<select id="getNext" resultType="Integer"
+		parameterType="Integer">
+		SELECT id
+		FROM article
+		where id <![CDATA[ > ]]> #{id}
+		LIMIT 1
+	</select>
+</mapper>

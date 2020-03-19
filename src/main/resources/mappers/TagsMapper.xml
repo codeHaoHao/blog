@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lijiahao.blog.dao.TagsDao">
+	<sql id="table_name">
+		tags
+	</sql>
+	<sql id="attributes">
+	id, name, weight
+	</sql>
+	<sql id="choose">
+		<choose>
+			<when test="id !=null and id !=''">
+				and id = #{id}
+			</when>
+			<when test="name !=null and name !=''">
+				and name = #{name}
+			</when>
+			<when test="weight !=null and weight !=''">
+				and weight = #{weight}
+			</when>
+		</choose>
+	</sql>
+	
+	<select id="get" resultType="com.lijiahao.blog.model.Tags" parameterType="Integer">
+		select
+		<include refid="attributes"/>
+		from <include refid="table_name"/>
+		where 1=1
+		and id = #{id}
+	</select>
+	
+	<delete id="delete" parameterType="Integer">
+		delete 
+		from <include refid="table_name"/> 
+		where id = #{id}
+	</delete>
+	
+	<update id="update" keyProperty="id" useGeneratedKeys="true" parameterType="com.lijiahao.blog.model.Tags">
+		update <include refid="table_name"/>
+		<set>
+			<if test="name !=null and name !=''">name=#{name},</if>
+			<if test="weight !=null and weight !=''">weight=#{weight}</if>
+		</set>
+		where 1=1
+		and id=#{id}
+	</update>
+	
+	<insert id="add" keyProperty="id" useGeneratedKeys="true" parameterType="com.lijiahao.blog.model.Tags">
+		insert into <include refid="table_name"/>(<include refid="attributes"/>)
+		values(#{id},#{name},#{weight})
+	</insert>
+	
+	<select id="selectByBean" resultType="com.lijiahao.blog.model.Tags" parameterType="com.lijiahao.blog.model.Tags">
+		select 
+		<include refid="attributes"/>
+		from <include refid="table_name"/>
+		where 1=1
+		<include refid="choose"/>
+	</select>
+	
+	<select id="getList" resultType="com.lijiahao.blog.model.Tags">
+		select
+		<include refid="attributes"/>
+		from <include refid="table_name"/>
+	</select>
+	
+	<select id="getByArticleId" resultType="com.lijiahao.blog.model.Tags">
+		select
+		tags.id,tags.name,tags.weight
+		from tags 
+		join article_tags
+		on tags.id = article_tags.tags_id
+		where 1=1
+		and article_id = #{id}
+	</select>
+</mapper>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lijiahao.blog.dao.VisitorUrlDao">
+	<sql id="table_name">
+		visitor_url
+	</sql>
+	<sql id="attributes">
+	id, visitor_id, url_path, visitor_time
+	</sql>
+	<sql id="choose">
+		<choose>
+			<when test="id !=null and id !=''">
+				and id = #{id}
+			</when>
+			<when test="visitor_id !=null and visitor_id !=''">
+				and visitor_id = #{visitor_id}
+			</when>
+			<when test="url_path !=null and url_path !=''">
+				and url_path = #{url_path}
+			</when>
+			<when test="visitor_time !=null and visitor_time !=''">
+				and visitor_time = #{visitor_time}
+			</when>
+		</choose>
+	</sql>
+	
+	<select id="get" resultType="com.lijiahao.blog.model.VisitorUrl" parameterType="Integer">
+		select
+		<include refid="attributes"/>
+		from <include refid="table_name"/>
+		where 1=1
+		and id = #{id}
+	</select>
+	
+	<delete id="delete" parameterType="Integer">
+		delete 
+		from <include refid="table_name"/> 
+		where id = #{id}
+	</delete>
+	
+	<update id="update" keyProperty="id" useGeneratedKeys="true" parameterType="com.lijiahao.blog.model.VisitorUrl">
+		update <include refid="table_name"/>
+		<set>
+			<if test="visitor_id !=null and visitor_id !=''">visitor_id=#{visitor_id},</if>
+			<if test="url_path !=null and url_path !=''">url_path=#{url_path},</if>
+			<if test="visitor_time !=null and visitor_time !=''">visitor_time=#{visitor_time}</if>
+		</set>
+		where 1=1
+		and id=#{id}
+	</update>
+	
+	<insert id="add" keyProperty="id" useGeneratedKeys="true" parameterType="com.lijiahao.blog.model.VisitorUrl">
+		insert into <include refid="table_name"/>(<include refid="attributes"/>)
+		values(#{id},#{visitor_id},#{url_path},#{visitor_time})
+	</insert>
+	
+	<select id="selectByBean" resultType="com.lijiahao.blog.model.VisitorUrl" parameterType="com.lijiahao.blog.model.VisitorUrl">
+		select 
+		<include refid="attributes"/>
+		from <include refid="table_name"/>
+		where 1=1
+		<include refid="choose"/>
+	</select>
+	
+	<select id="getList" resultType="com.lijiahao.blog.model.VisitorUrl">
+		select
+		<include refid="attributes"/>
+		from <include refid="table_name"/>
+	</select>
+</mapper>
