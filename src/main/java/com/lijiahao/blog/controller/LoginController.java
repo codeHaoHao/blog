@@ -31,7 +31,7 @@ import com.wf.captcha.utils.CaptchaUtil;
 
 @Controller
 @RequestMapping("admin/")
-public class LoginController {
+public class LoginController extends BaseController{
 	
 	private final String SALT = "fdstfdgeeggd";
 	

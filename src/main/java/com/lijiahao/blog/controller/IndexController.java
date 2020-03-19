@@ -25,7 +25,7 @@ import com.lijiahao.blog.service.UserService;
  */
 
 @Controller
-public class IndexController {
+public class IndexController extends BaseController{
 	
 	@Autowired
 	private UserService userService;

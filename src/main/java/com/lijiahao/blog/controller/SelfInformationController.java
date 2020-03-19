@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -71,6 +72,31 @@ public class SelfInformationController extends BaseAdminController{
         
 		
 		return "admin/self_information";
+	}
+	
+	@RequestMapping("aboutMe.html")
+	public String aboutMe(Model model) {
+		
+		return "admin/aboutMe";
+	}
+	
+	@RequestMapping(value = "saveAboutMe.html", method = RequestMethod.POST)
+	public String saveAboutMe(Model model, User user) {
+		JsonResult result = new JsonResult();
+		
+		
+		int count = userService.update(user);
+		
+		if(count >= 0) {
+			result.setSuccess(true);
+			result.setMessage("保存成功");
+		} else {
+			result.setSuccess(false);
+			result.setMessage("保存失败");
+		}
+		
+		model.addAttribute("result", result);
+		return "admin/aboutMe";
 	}
 
 }

@@ -16,7 +16,7 @@ import com.lijiahao.blog.utils.SessionUtils;
  * @author frank Li
  *
  */
-public class BaseAdminController {
+public class BaseAdminController extends BaseController{
 	
 	@Autowired
 	private UserService userService;

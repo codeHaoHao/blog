@@ -33,7 +33,7 @@ window.onload = function ()
 		<div class="ab_box">
 			<div class="leftbox">
 				<div class="newsview">
-					<div class="news_infos">此处安装插件</div>
+					<div class="news_infos"></div>
 				</div>
 			</div>
 			<div class="rightbox">
@@ -49,25 +49,14 @@ window.onload = function ()
 						<p th:text="${'邮箱 : '+user.email}"></p>
 					</div>
 				</div>
-				<!-- 
-				<div class="weixin">
-					<h2 class="hometitle">微信关注</h2>
-					<ul>
-						<img src="images/wx.jpg">
-					</ul>
-				</div>
-				 -->
 			</div>
 		</div>
 	</article>
 <footer>
-  <div id = "copyright-template">
-		<copyright></copyright>
-	</div>
+<p class="copyright" th:utext="${website.copyright}"></p>
 </footer>
 <script type="text/javascript" src="/js/vue/vue.min.js"></script>
 <script type="text/javascript" src="/js/vue/vue-templates.js"></script>
-<script src="js/include.js"></script>
-<script src="js/nav.js"></script>
+<script src="/js/nav.js"></script>
 </body>
 </html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title th:text="${website.title}"></title>
+<meta name="keywords" th:content="${website.keywords}" />
+<meta name="description" th:content="${website.description}" />
+<link rel="shortcut icon" th:href="${website.logo}" type="image/x-icon"/>
+<link rel="bookmark" th:href="${website.logo}" type="image/x-icon">
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+<link href="/css/materialdesignicons.min.css" rel="stylesheet">
+<link href="/css/style.min.css" rel="stylesheet">
+</head>
+  
+<body>
+<div class="lyear-layout-web">
+  <div class="lyear-layout-container">
+    <!--左侧导航-->
+    <div id="left-navigation-template">
+    	<left-navigation></left-navigation>
+    </div>
+    <!--End 左侧导航-->
+    
+    <!--头部信息-->
+    <header class="lyear-layout-header">
+      
+      <nav class="navbar navbar-default">
+        <div class="topbar">
+          
+          <div class="topbar-left">
+            <div class="lyear-aside-toggler">
+              <span class="lyear-toggler-bar"></span>
+              <span class="lyear-toggler-bar"></span>
+              <span class="lyear-toggler-bar"></span>
+            </div>
+            <span class="navbar-page-title"> 示例页面 - 网站配置 </span>
+          </div>
+          
+          <ul class="topbar-right">
+			<li class="dropdown dropdown-profile">
+				<a href="javascript:void(0)" data-toggle="dropdown">
+					<img class="img-avatar img-avatar-48 m-r-10" th:src="${user.avatar}" th:alt="${user.name}" />
+					<span th:text="${user.name}"><span class="caret"></span></span>
+				</a>
+				<admin-top-nav id="admin-top-nav-template"></admin-top-nav>
+			</li>
+		 </ul>
+          
+        </div>
+      </nav>
+      
+    </header>
+    <!--End 头部信息-->
+    
+    <!--页面主要内容-->
+    <main class="lyear-layout-content">
+      
+      <div class="container-fluid">
+      
+      <div class="alert alert-success" role="alert" th:if="${result !=null && result.success}" th:text="${result.message}"></div>
+      <div class="alert alert-danger" role="alert" th:if="${result !=null && !result.success}" th:text="${result.message}"></div>
+        
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card">
+              <ul class="nav nav-tabs page-tabs">
+                <li class="active"> <a href="#!">基本</a> </li>
+              </ul>
+              <div class="tab-content">
+                <div class="tab-pane active">
+                  
+                  <form action="/admin/saveWebsiteConfig.html" method="post" name="edit-form" class="edit-form" enctype="multipart/form-data">
+                    <div class="form-group">
+                      <label for="web_site_title">网站标题</label>
+                      <input class="form-control" type="text" id="web_site_title" name="title" th:value="${website.title}" placeholder="请输入站点标题" >
+                      <input type="hidden" name="id" th:value="${website.id}"></input>
+                    </div>
+                    <div class="form-group">
+                      <label for="web_site_logo">LOGO图片</label>
+                      <div class="input-group">
+                        <input type="text" class="form-control" name="logo-img" id="web_site_logo" th:value="${website.logo}" />
+                        <div class="input-group-btn"><input class="btn btn-default" name="logo-img" type="file"/></div>
+                      </div>
+                    </div>
+                    
+                    <!-- logo图片展示 -->
+                    <div class="form-group col-md-12">
+                    <div class="form-controls">
+                      <ul class="list-inline clearfix lyear-uploads-pic">
+                        <li class="col-xs-4 col-sm-3 col-md-2">
+                          <figure>
+                            <img th:src="${website.logo}" alt="图片一">
+                            <figcaption>
+                              <a class="btn btn-round btn-square btn-primary" href="#!"><i class="mdi mdi-eye"></i></a>
+                              <a class="btn btn-round btn-square btn-danger" href="#!"><i class="mdi mdi-delete"></i></a>
+                            </figcaption>
+                          </figure>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                    
+                    <div class="form-group">
+                      <label for="web_site_keywords">站点关键词</label>
+                      <input class="form-control" type="text" id="web_site_keywords" name="keywords" th:value="${website.keywords}" placeholder="请输入站点关键词" >
+                      <small class="help-block">网站搜索引擎关键字</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="web_site_description">站点描述</label>
+                      <textarea class="form-control" id="web_site_description" rows="5" name="description" placeholder="请输入站点描述" th:text="${website.description}"></textarea>
+                      <small class="help-block">网站描述，有利于搜索引擎抓取相关信息</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="web_site_copyright">版权信息</label>
+                      <input class="form-control" type="text" id="web_site_copyright" name="copyright" th:value="${website.copyright}" placeholder="请输入版权信息" >
+                    </div>
+                    <div class="form-group">
+                      <input type="submit" class="btn btn-primary m-r-5" value="确 定"/>
+                    </div>
+                  </form>
+                  
+                </div>
+              </div>
+
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+    </main>
+    <!--End 页面主要内容-->
+  </div>
+</div>
+
+<script type="text/javascript" src="/js/jquery.min.js"></script>
+<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/js/perfect-scrollbar.min.js"></script>
+<script type="text/javascript" src="/js/main.min.js"></script>
+<script type="text/javascript" src="/js/vue/vue.min.js"></script>
+<script type="text/javascript" src="/js/vue/vue-templates.js"></script>
+</body>
+</html>

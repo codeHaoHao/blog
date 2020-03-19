@@ -1,6 +1,10 @@
 package com.lijiahao.blog.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -8,12 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.github.pagehelper.PageInfo;
 import com.lijiahao.blog.model.Article;
 import com.lijiahao.blog.model.User;
 import com.lijiahao.blog.service.ArticleService;
 import com.lijiahao.blog.service.UserService;
+import com.lijiahao.blog.utils.FileUtils;
 import com.lijiahao.blog.utils.JsonResult;
 import com.lijiahao.blog.utils.TimeUtils;
 
@@ -26,6 +32,9 @@ import com.lijiahao.blog.utils.TimeUtils;
 @Controller
 @RequestMapping("admin/")
 public class ArticleController extends BaseAdminController{
+	
+	@Value("${web.upload-path}")
+    private String path;
 	
 	@Autowired
 	private ArticleService articleService;
@@ -49,12 +58,34 @@ public class ArticleController extends BaseAdminController{
 	}
 	
 	@RequestMapping(value = "create_article.html", method = RequestMethod.POST)
-	public String createArticle(Model model, Article article, String tags) {
+	public String createArticle(Model model, Article article, String tags, @RequestParam("title-image") MultipartFile file) {
+		JsonResult result = new JsonResult();
+		
 		long currentTime = TimeUtils.getCurrentTime();
+		
+		ArrayList<String> errors = new ArrayList<String>();
+        String fileName = null;
+        if(!file.isEmpty()) {
+        	fileName = FileUtils.upload(file, path, file.getOriginalFilename(), errors);
+        	article.setImage_url(FileUtils.getAccessUrl(fileName));
+        }
+        
+        if(errors.size() > 0) {
+        	result.setSuccess(false);
+        	result.setMessage(errors.get(0));
+        	model.addAttribute("result", result);
+    		return "admin/website_config";
+        }
+		
+		
 		article.setCreate_date(currentTime);
 		article.setUpdate_date(currentTime);
 		article.setAuthor("程序员小浩");
 		int article_id = articleService.addArticle(article, tags);
+		
+		result.setSuccess(true);
+		result.setMessage("保存成功");
+		model.addAttribute("result", result);
 		
 		return "admin/create_article_page";
 	}

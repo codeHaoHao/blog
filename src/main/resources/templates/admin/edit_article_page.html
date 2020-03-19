@@ -3,10 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>编辑文章 - 光年(Light Year Admin)后台管理系统模板</title>
-<link rel="icon" href="favicon.ico" type="image/ico">
-<meta name="keywords" content="LightYear,光年,后台模板,后台管理系统,光年HTML模板">
-<meta name="description" content="LightYear是一个基于Bootstrap v3.3.7的后台管理系统的HTML模板。">
+<title th:text="${website.title}"></title>
+<meta name="keywords" th:content="${website.keywords}" />
+<meta name="description" th:content="${website.description}" />
+<link rel="shortcut icon" th:href="${website.logo}" type="image/x-icon"/>
+<link rel="bookmark" th:href="${website.logo}" type="image/x-icon">
 <meta name="author" content="yinqi">
 <link href="/css/bootstrap.min.css" rel="stylesheet">
 <link href="/css/materialdesignicons.min.css" rel="stylesheet">
@@ -66,7 +67,7 @@
             <div class="card">
               <div class="card-body">
                 
-                <form action="/admin/editArticle" method="post" class="row">
+                <form action="/admin/editArticle" method="post" class="row" enctype="multipart/form-data">
                  
                   <div class="form-group col-md-12">
                     <label for="title">标题</label>
@@ -91,15 +92,11 @@
                       <ul class="list-inline clearfix lyear-uploads-pic">
                         <li class="col-xs-4 col-sm-3 col-md-2">
                           <figure>
-                            <img src="/images/gallery/15.jpg" alt="图片一">
-                            <figcaption>
-                              <a class="btn btn-round btn-square btn-primary" href="#!"><i class="mdi mdi-eye"></i></a>
-                              <a class="btn btn-round btn-square btn-danger" href="#!"><i class="mdi mdi-delete"></i></a>
-                            </figcaption>
+                            <img src="/images/gallery/15.jpg" alt="图片一" id="upload_image_view">
                           </figure>
                         </li>
                         <li class="col-xs-4 col-sm-3 col-md-2">
-                          <a class="pic-add" id="add-pic-btn" href="#!" title="点击上传"></a>
+                          <input class="" id="upload_image" type="file" name="title-image" title="点击上传" accept="image/jpg,image/jpeg,image/png,image/PNG"/>
                         </li>
                       </ul>
                     </div>
@@ -162,6 +159,31 @@
 <!--标签插件-->
 <script src="/js/jquery-tags-input/jquery.tagsinput.min.js"></script>
 <script type="text/javascript" src="/js/main.min.js"></script>
+
+<!-- 图片上传显示 -->
+<script>
+$(function() {
+    $("#upload_image").change(function(e) {
+        var imgBox = e.target;
+        uploadImg($('#bcd'), imgBox)
+    });
+
+    function uploadImg(element, tag) {
+        var file = tag.files[0];
+        var imgSrc;
+        if (!/image\/\w+/.test(file.type)) {
+            alert("看清楚，这个需要图片！");
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function() {
+            imgSrc = this.result;
+            $("#upload_image_view").attr("src", imgSrc);
+        };
+    }
+})
+</script>
 
 </body>
 </html>

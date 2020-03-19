@@ -34,6 +34,12 @@ public class FileUtils {
     */
    public static String upload(MultipartFile file, String path, String fileName, ArrayList<String> errors){
 	   
+	   if(!checkFileSize(file.getSize(),10,"M")) {
+		   errors.add("超出了最大文件大小, 最大只能上传10M");
+		   return null;
+	   }
+	   
+	   
 	   String fileNewName = getFileName(fileName);
        // 生成新的文件名
        String realPath = path + "/" + fileNewName;
@@ -62,6 +68,26 @@ public class FileUtils {
        }
 
    }
+   
+   
+   public static boolean checkFileSize(Long len, int size, String unit) {
+//     long len = file.length();
+     double fileSize = 0;
+     if ("B".equals(unit.toUpperCase())) {
+         fileSize = (double) len;
+     } else if ("K".equals(unit.toUpperCase())) {
+         fileSize = (double) len / 1024;
+     } else if ("M".equals(unit.toUpperCase())) {
+         fileSize = (double) len / 1048576;
+     } else if ("G".equals(unit.toUpperCase())) {
+         fileSize = (double) len / 1073741824;
+     }
+     if (fileSize > size) {
+         return false;
+     }
+     return true;
+ }
+   
 	/**
      * 获取文件后缀
      * @param fileName

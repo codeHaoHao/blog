@@ -1,9 +1,11 @@
 <!doctype html>
 <html>
 <head>
-<title>首页_李佳浩个人博客 - 一个站在java后端之路的技术员个人博客网站</title>
-<meta name="keywords" content="个人博客,李佳浩个人博客,个人博客模板,李佳浩" />
-<meta name="description" content="李佳浩个人博客，是一个站在java后端之路的程序员个人网站" />
+<title th:text="${website.title}"></title>
+<meta name="keywords" th:content="${website.keywords}" />
+<meta name="description" th:content="${website.description}" />
+<link rel="shortcut icon" th:href="${website.logo}" type="image/x-icon"/>
+<link rel="bookmark" th:href="${website.logo}" type="image/x-icon">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="css/base.css" rel="stylesheet">
 <link href="css/index.css" rel="stylesheet">
@@ -92,24 +94,16 @@ window.onload = function ()
     </div>
     <div class="links">
       <h2 class="hometitle">友情链接</h2>
-      <ul>
-        <li><a href="http://www.yangqq.com" title="李佳浩个人博客">李佳浩个人博客</a></li>
-        <li><a href="http://www.yangqq.com" title="李佳浩个人博客">李佳浩个人博客</a></li>
-        <li><a href="http://www.yangqq.com" title="李佳浩个人博客">李佳浩个人博客</a></li>
-      </ul>
     </div>
 
   </div>
 </article>
 <div class="blank"></div>
-<footer>
-	<div id = "copyright-template">
-		<copyright></copyright>
-	</div>
-</footer>
-<script type="text/javascript" src="/js/vue/vue.min.js"></script>
+	<footer>
+		<p class="copyright" th:utext="${website.copyright}"></p>
+	</footer>
+	<script type="text/javascript" src="/js/vue/vue.min.js"></script>
 <script type="text/javascript" src="/js/vue/vue-templates.js"></script>
-<script src="/js/include.js"></script>
 <script src="/js/nav.js"></script>
 </body>
 </html>
