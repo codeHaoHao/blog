@@ -73,8 +73,10 @@ public class IndexController extends BaseController{
 	}
 	
 	@RequestMapping("/info.html")
-	public String info(Model model, int id) {
+	public String info(Model model, int id, HttpServletRequest request) {
+		
 		Article article = articleService.get(id);
+		articleService.updateReadings(article, request.getRemoteAddr());
 		Article previous = articleService.getPrevious(id);
 		Article next = articleService.getNext(id);
 		User user = userService.get(0);

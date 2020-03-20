@@ -10,6 +10,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lijiahao.blog.dao.ArticleDao;
 import com.lijiahao.blog.dao.cache.ArticleCache;
+import com.lijiahao.blog.dao.cache.IpCache;
 import com.lijiahao.blog.model.Article;
 import com.lijiahao.blog.model.ArticleTags;
 import com.lijiahao.blog.model.Tags;
@@ -25,6 +26,9 @@ public class ArticleServiceImpl extends GenericServiceImpl<Article> implements A
 	
 	@Autowired
 	private ArticleCache cache;
+	
+	@Autowired
+	private IpCache ipCache;
 	
 	@Autowired
 	private TagsService tagsService;
@@ -88,7 +92,6 @@ public class ArticleServiceImpl extends GenericServiceImpl<Article> implements A
 		}
 		
 		int id = update(article);
-		System.out.println(id);
 		return 0;
 	}
 
@@ -130,5 +133,17 @@ public class ArticleServiceImpl extends GenericServiceImpl<Article> implements A
 		
 		return get(next_id);
 	}
+
+	@Override
+	public int updateReadings(Article article, String ip) {
+		if(ipCache.canUpdateReadings(ip, article.getId())) {
+			int readings = article.getReadings() + 1;
+			article.setReadings(readings);
+			dao.update(article);
+		}
+		return 0;
+	}
+
+	
 
 }

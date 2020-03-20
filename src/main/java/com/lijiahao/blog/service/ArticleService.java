@@ -15,4 +15,6 @@ public interface ArticleService extends Service<Article>{
 	Article getNext(int id);
 	
 	int updateArticle(Article article, String tags);
+	
+	int updateReadings(Article article, String ip);
 }

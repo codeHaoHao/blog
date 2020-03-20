@@ -9,7 +9,7 @@ import com.lijiahao.blog.model.GenericBean;
  * @param <T>
  */
 
-public interface Cache<T extends GenericBean> {
+public interface Cache<T> {
     void expire(String key);
 	T get(int id);
     void set(T bean);

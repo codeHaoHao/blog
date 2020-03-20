@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson.JSON;
@@ -26,10 +27,18 @@ public class ArticleCache implements Cache<Article>{
     
     @Autowired
     private StringRedisTemplate stringRedisTemplate;
-
+    
+    
 	@Override
 	public void expire(String key) {
-		stringRedisTemplate.expire(key, EXPIRE, TimeUnit.HOURS);
+	}
+	
+	/**
+	 * 每天3:05清除缓存
+	 */
+	@Scheduled(cron = "0 05 03 ? * *")
+	public void clearCache() {
+		map.clear();
 	}
 	
 	@Override
