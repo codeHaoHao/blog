@@ -36,6 +36,21 @@ public class IndexController extends BaseController{
 	@Autowired
 	private ArticleService articleService;
 	
+	
+	@RequestMapping("/")
+	public String indexto(Model model, HttpServletRequest request, @RequestParam(value="pageNum",defaultValue="1")int pageNum) {
+		List<Tags> tags = tagsService.getList();
+		User user = userService.get(0);
+		PageInfo<Article> page = articleService.getListOrderByCreateDate(pageNum, 10);
+		PageInfo<Article> readingRank = articleService.getListOrderByReadings();
+		
+		model.addAttribute("user", user);
+		model.addAttribute("tags", tags);
+		model.addAttribute("page", page);
+		model.addAttribute("readingRank", readingRank);
+		return "index";
+	}
+	
 	@RequestMapping("/index.html")
 	public String index(Model model, HttpServletRequest request, @RequestParam(value="pageNum",defaultValue="1")int pageNum) {
 		List<Tags> tags = tagsService.getList();

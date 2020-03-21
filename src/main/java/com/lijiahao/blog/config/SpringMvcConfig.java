@@ -24,7 +24,7 @@ public class SpringMvcConfig extends WebMvcConfigurationSupport{
 	protected void addInterceptors(InterceptorRegistry registry) {
 		
 		registry.addInterceptor(baseInterceptor).addPathPatterns("/admin/**").excludePathPatterns("/admin/captcha.html",
-				"/admin/dologin.html", "/admin/login.html");
+				"/admin/dologin.html", "/admin/login.html","/js/**", "/css/**","/images/**","/fonts/**","/static/**");
 	}
 	
 	

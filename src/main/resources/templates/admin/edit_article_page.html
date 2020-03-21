@@ -14,6 +14,9 @@
 <!--标签插件-->
 <link rel="stylesheet" href="/js/jquery-tags-input/jquery.tagsinput.min.css">
 <link href="/css/style.min.css" rel="stylesheet">
+
+<!-- editor -->
+<link rel="stylesheet" href="/js/wangEditor/wangEditor-fullscreen-plugin.css">
 </head>
   
 <body>
@@ -104,10 +107,11 @@
                   
                   <div class="form-group col-md-12">
                     <label for="content">内容</label>
-                    <textarea class="ckeditor" id="ckeditor" name="content" th:text="${article.content}">
-                    	<p></p>
-                    </textarea>
+                     <div id="editor" th:utext="${article.content}">
+       					 
+    				</div>
                   </div>
+                  <textarea class="hide" name="content"></textarea>
                   
                   <div class="form-group col-md-12">
                     <label for="sort">排序</label>
@@ -154,7 +158,24 @@
 <script type="text/javascript" src="/js/jquery.min.js"></script>
 <script type="text/javascript" src="/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/js/perfect-scrollbar.min.js"></script>
-<script type="text/javascript" src="/js/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/js/wangEditor/wangEditor.min.js"></script>
+<script type="text/javascript" src="/js/wangEditor/wangEditor-fullscreen-plugin.js"></script>
+<!-- 初始化编辑器 -->
+<script type="text/javascript">
+        var E = window.wangEditor
+        var editor = new E('#editor')
+        editor.customConfig.onchange = function (html) {
+            // 监控变化，同步更新到 textarea
+            $("textarea[name='content']").val(html)
+        }
+        editor.customConfig.uploadImgServer = '/imageUpload'
+        editor.customConfig.uploadImgMaxLength = 5
+     	// 将图片大小限制为 3M
+        editor.customConfig.uploadImgMaxSize = 3 * 1024 * 1024
+        editor.create()
+        E.fullscreen.init('#editor');
+        $("textarea[name='content']").val(editor.txt.html())
+</script>
 
 <!--标签插件-->
 <script src="/js/jquery-tags-input/jquery.tagsinput.min.js"></script>
