@@ -16,7 +16,9 @@ public class BlogApplication {
 	
 	
 	
-	
+	private static void test1() {
+		
+	}
 	
 	public static void main(String[] args) {
 		SpringApplication.run(BlogApplication.class, args);
@@ -24,7 +26,9 @@ public class BlogApplication {
 	
 	
 	
-
+	private static void test2() {
+		
+	}
 	
 	
 	
