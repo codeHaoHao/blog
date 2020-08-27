@@ -14,6 +14,9 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ServletComponentScan
 public class BlogApplication {
 	
+	private static void testRabase() {
+		
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(BlogApplication.class, args);
