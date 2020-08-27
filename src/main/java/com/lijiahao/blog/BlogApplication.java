@@ -17,9 +17,24 @@ public class BlogApplication {
 	private static void testRabase() {
 		
 	}
-
+	
+	
+	
+	private static void test1() {
+		
+	}
+	
 	public static void main(String[] args) {
 		SpringApplication.run(BlogApplication.class, args);
 	}
-
+	
+	
+	
+	private static void test2() {
+		
+	}
+	
+	
+	
+	
 }
