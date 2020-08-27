@@ -34,7 +34,9 @@ public class BlogApplication {
 		
 	}
 	
-	
+	private static void testRabase2() {
+		
+	}
 	
 	
 }
