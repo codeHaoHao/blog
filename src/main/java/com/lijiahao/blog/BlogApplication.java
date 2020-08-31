@@ -74,4 +74,8 @@ public class BlogApplication {
 		
 	}
 	
+	private static void test11() {
+		
+	}
+	
 }
