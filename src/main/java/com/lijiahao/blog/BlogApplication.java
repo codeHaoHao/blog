@@ -55,5 +55,20 @@ public class BlogApplication {
 		
 	}
 	
+	private static void test7() {
+		
+	}
+	
+	private static void test8() {
+		
+	}
+	
+	private static void test9() {
+		
+	}
+	
+	private static void test10() {
+		
+	}
 	
 }
