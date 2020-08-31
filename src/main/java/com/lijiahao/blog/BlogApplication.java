@@ -44,6 +44,8 @@ public class BlogApplication {
 	
 	
 	
-	
+	private static void test3() {
+		
+	}
 	
 }
