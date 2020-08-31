@@ -50,6 +50,9 @@ public class BlogApplication {
 		
 	}
 	
+	private static void test12() {
+		
+	}
 	
 	private static void test6() {
 		
