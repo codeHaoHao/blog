@@ -14,6 +14,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ServletComponentScan
 public class BlogApplication {
 	
+	private static void testMaster() {
+		
+	}
+	
 	private static void testRabase() {
 		
 	}
@@ -37,6 +41,9 @@ public class BlogApplication {
 	private static void testRabase2() {
 		
 	}
+	
+	
+	
 	
 	
 }
