@@ -14,6 +14,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ServletComponentScan
 public class BlogApplication {
 	
+	private static void test4() {
+		
+	}
+	
 	private static void testMaster() {
 		
 	}
