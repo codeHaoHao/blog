@@ -37,6 +37,15 @@ CREATE TABLE `article` (
   KEY `idx_user_id` (`user_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
+Create table if not exists website(
+	id int(11) primary key not null auto_increment,
+	title varchar(100) not null,
+	logo varchar(100) not null,
+	keywords text,
+	description text,
+	copyright text
+)ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- ----------------------------
 -- Records of article
 -- ----------------------------

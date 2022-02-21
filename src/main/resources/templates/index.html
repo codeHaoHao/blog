@@ -62,7 +62,7 @@ window.onload = function ()
   </div>
   <div class="sidebar">
     <div class="about">
-      <div class="avatar"> <img th:src="${user.avatar}" alt=""> </div>
+      <div class="avatar"> <img th:src="${user.avatar}" alt="" th:if="${not #strings.isEmpty(user.avatar)}"> </div>
       <p class="abname" th:text="${user.name}"></p>
       <p class="abposition" th:text="${user.profession}"></p>
       <div class="abtext" th:text="${user.introduction}"> </div>

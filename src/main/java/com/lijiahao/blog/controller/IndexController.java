@@ -40,11 +40,9 @@ public class IndexController extends BaseController{
 	@RequestMapping("/")
 	public String indexto(Model model, HttpServletRequest request, @RequestParam(value="pageNum",defaultValue="1")int pageNum) {
 		List<Tags> tags = tagsService.getList();
-		User user = userService.get(0);
 		PageInfo<Article> page = articleService.getListOrderByCreateDate(pageNum, 10);
 		PageInfo<Article> readingRank = articleService.getListOrderByReadings();
-		
-		model.addAttribute("user", user);
+
 		model.addAttribute("tags", tags);
 		model.addAttribute("page", page);
 		model.addAttribute("readingRank", readingRank);
@@ -54,11 +52,9 @@ public class IndexController extends BaseController{
 	@RequestMapping("/index.html")
 	public String index(Model model, HttpServletRequest request, @RequestParam(value="pageNum",defaultValue="1")int pageNum) {
 		List<Tags> tags = tagsService.getList();
-		User user = userService.get(0);
 		PageInfo<Article> page = articleService.getListOrderByCreateDate(pageNum, 10);
 		PageInfo<Article> readingRank = articleService.getListOrderByReadings();
-		
-		model.addAttribute("user", user);
+
 		model.addAttribute("tags", tags);
 		model.addAttribute("page", page);
 		model.addAttribute("readingRank", readingRank);
@@ -77,7 +73,7 @@ public class IndexController extends BaseController{
 	
 	@RequestMapping("/about.html")
 	public String about(Model model, HttpServletRequest request) {
-		User user = userService.get(0);
+		User user = userService.get(1);
 		model.addAttribute("user", user);
 		return "about";
 	}
@@ -94,7 +90,7 @@ public class IndexController extends BaseController{
 		articleService.updateReadings(article, request.getRemoteAddr());
 		Article previous = articleService.getPrevious(id);
 		Article next = articleService.getNext(id);
-		User user = userService.get(0);
+		User user = userService.get(1);
 		List<Tags> tags = tagsService.getList();
 		PageInfo<Article> readingRank = articleService.getListOrderByReadings();
 		
@@ -109,7 +105,7 @@ public class IndexController extends BaseController{
 	
 	@RequestMapping("/gbook.html")
 	public String gbook(Model model, HttpServletRequest request) {
-		User user = userService.get(0);
+		User user = userService.get(1);
 		model.addAttribute("user", user);
 		
 		return "gbook";

@@ -28,75 +28,71 @@ import com.lijiahao.blog.utils.SessionUtils;
  *
  */
 
-@Controller
-@RequestMapping("admin/")
-public class SelfInformationController extends BaseAdminController{
-	
-	@Value("${web.upload-path}")
-    private String path;
-	
-	@Autowired
-	private UserService userService;
-	
-	@RequestMapping("selfInformation.html")
-	public String selfInformation(Model model, HttpServletRequest request) {
-//		int user_id = SessionUtils.getUserId(request);
-//		User user = userService.get(user_id);
-//		model.addAttribute("user", user);
-		return "admin/self_information";
-	}
-	
-	@RequestMapping("saveSelfInformation")
-	public String saveSelfInformation(Model model, HttpServletRequest request, User user, @RequestParam("avatar-file") MultipartFile file) {
-		int usreId = SessionUtils.getUserId(request);
-		
-		JsonResult result = new JsonResult();
-		user.setId(usreId);
-		
-        ArrayList<String> errors = new ArrayList<String>();
-        String fileName = null;
-        if(!file.isEmpty()) {
-        	fileName = FileUtils.upload(file, path, file.getOriginalFilename(), errors);
-        	user.setAvatar(FileUtils.getAccessUrl(fileName));
-        }
-        if (errors.size() > 0){
-        	result.setSuccess(false);
-        	result.setMessage(errors.get(0));
-        	return "admin/self_information";
-        }
-        
-        userService.update(user);
-        
-        result.setSuccess(true);
-        result.setMessage("上传成功!");
-        
-		
-		return "admin/self_information";
-	}
-	
-	@RequestMapping("aboutMe.html")
-	public String aboutMe(Model model) {
-		
-		return "admin/aboutMe";
-	}
-	
-	@RequestMapping(value = "saveAboutMe.html", method = RequestMethod.POST)
-	public String saveAboutMe(Model model, User user) {
-		JsonResult result = new JsonResult();
-		
-		
-		int count = userService.update(user);
-		
-		if(count >= 0) {
-			result.setSuccess(true);
-			result.setMessage("保存成功");
-		} else {
-			result.setSuccess(false);
-			result.setMessage("保存失败");
-		}
-		
-		model.addAttribute("result", result);
-		return "admin/aboutMe";
-	}
+@Controller @RequestMapping("admin/") public class SelfInformationController
+    extends BaseAdminController {
+
+  @Value("${web.upload-path}") private String path;
+
+  @Autowired private UserService userService;
+
+  @RequestMapping("selfInformation.html") public String selfInformation(
+      Model model, HttpServletRequest request) {
+    //		int user_id = SessionUtils.getUserId(request);
+    //		User user = userService.get(user_id);
+    //		model.addAttribute("user", user);
+    return "admin/self_information";
+  }
+
+  @RequestMapping("saveSelfInformation") public String saveSelfInformation(
+      Model model, HttpServletRequest request, User user,
+      @RequestParam("avatar-file") MultipartFile file) {
+    int usreId = SessionUtils.getUserId(request);
+
+    JsonResult result = new JsonResult();
+    user.setId(usreId);
+
+    ArrayList<String> errors = new ArrayList<String>();
+    String fileName = null;
+    if (!file.isEmpty()) {
+      fileName = FileUtils.upload(file, path, file.getOriginalFilename(),
+          errors);
+      user.setAvatar(FileUtils.getAccessUrl(fileName));
+    }
+    if (errors.size() > 0) {
+      result.setSuccess(false);
+      result.setMessage(errors.get(0));
+      return "admin/self_information";
+    }
+
+    userService.update(user);
+
+    result.setSuccess(true);
+    result.setMessage("上传成功!");
+
+    return "admin/self_information";
+  }
+
+  @RequestMapping("aboutMe.html") public String aboutMe(Model model) {
+
+    return "admin/aboutMe";
+  }
+
+  @RequestMapping(value = "saveAboutMe.html", method = RequestMethod.POST) public String saveAboutMe(
+      Model model, User user) {
+    JsonResult result = new JsonResult();
+
+    int count = userService.update(user);
+
+    if (count >= 0) {
+      result.setSuccess(true);
+      result.setMessage("保存成功");
+    } else {
+      result.setSuccess(false);
+      result.setMessage("保存失败");
+    }
+
+    model.addAttribute("result", result);
+    return "admin/aboutMe";
+  }
 
 }
